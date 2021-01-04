@@ -1,7 +1,7 @@
 package WorldBasics;
 
+import Defines.WrongSizeStatsArrayException;
 import WorldBasics.UnitStats.StatSet;
-import defines.WrongSizeStatsArrayException;
 
 public class Collectibles {
     /*
@@ -57,15 +57,14 @@ public class Collectibles {
         }
     }
     
-    // gear class
+    /** Gear object:
+     * this class represents items that can be equipped; thus it adds to
+     * the normal name, description and price fields of items, a type,
+     * a set of stats and a slot requirement indicator.
+     * types will be defined as an enum. requirements can be found in
+     * the Defines.Constants package.
+     */
     public static class Gear extends Item{
-        /*
-        this class represents items that can be equipped; thus it adds to
-        the normal name, description and price fields of items, a type,
-        a set of stats and a slot requirement indicator.
-        possible values for the type and the req attributes can be found 
-        in defines.Constants.java.
-        */
 
         // attributes
         private String type;

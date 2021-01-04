@@ -1,4 +1,4 @@
-package defines;
+package Defines;
 public class Constants {
     /*
     the goal of this source is to store inter source constants that will be

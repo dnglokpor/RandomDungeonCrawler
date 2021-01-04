@@ -1,8 +1,9 @@
 package WorldBasics;
 
 import java.util.Hashtable;
-import defines.Constants;
-import defines.WrongSizeStatsArrayException;
+
+import Defines.Constants;
+import Defines.WrongSizeStatsArrayException;
 
 public class UnitStats {
 
@@ -34,38 +35,49 @@ public class UnitStats {
         }
 
         // setters
+        /**
+         * raise the value of both max and current values of the stat 
+         * to new values. May be used for level up evolution.
+         * @param increase
+         */
         public void develop(int increase){
-            /* raise the value of both max and current values of the stat 
-            to new values. May be used for level up evolution. */
             int temp;
             temp = this.max(); // temp record max
             this.value.replace("max", temp, temp + increase);
             temp = this.current(); // temp record max
             this.value.replace("max", temp, temp + increase);
         }
+        /**
+         * reduce the current value of stat by the "amount". if "amount" 
+         * is higher than the current value, current becomes "0". 
+         * "amount" must be positif.
+         */
         public void lowerBy(int amount){
-            /* reduce the current value of stat by the "amount". if "amount" 
-            is higher than the current value, current becomes "0". 
-            "amount" must be positif. */
             if(amount > 0){
                 int temp = this.current();
                 if(temp > amount)
                     this.value.replace("cur", temp, temp - amount);
-                else
+                else // to avoid negative current values
                     this.value.replace("cur", temp, 0);
             }
         }
+        /** raise the current value of stat by the "amount".
+         * "amount" must be positif.
+         */
         public void raiseBy(int amount){
-            /* raise the current value of stat by the "amount". if "amount" 
-            is higher than the current value, current becomes "0". 
-            "amount" must be positif. */
             if(amount > 0){
-                int temp = this.current();
-                if(temp + amount > this.max())
-                    this.value.replace("cur", temp, this.max());
-                else
-                    this.value.replace("cur", temp, temp + amount);
+                int old = this.current();
+                // the current can go over the max
+                this.value.replace("cur", old, old + amount);
             }
+        }
+        /**
+         * reset the current value of the stat to its max value. this is
+         * done by setting the current equal to the max.
+         */
+        public void reset(){
+            int old = this.current();
+            this.value.replace("cur", old, this.max());
         }
     }
 
@@ -102,18 +114,40 @@ public class UnitStats {
             }
         }
 
-        // getter
+        // getters
+        /**
+         * returns the set of stats StatSet object.
+         */
         public Hashtable<String, Stat> getSet(){
-            /**
-             * returns the set attribute of this StatSet object.
-             */
             return this.set;
         }
+        /**
+         * returns the Stat specified by stat.
+         */
         public Stat getStat(String stat){
-            /**
-             * returns the Stat specified by stat.
-             */
             return this.set.get(stat);
+        }
+
+        // setters
+        /**
+         * reset all the stats of the set to their max value. this can be
+         * useful for example when healing the user at an inn.
+         */
+        public void resetAll(){
+            for(String stat : new Constants().STATS){
+                this.getStat(stat).reset();
+            }
+        }
+        /**
+         * reset all the stats of the set but the "HP". This can be used
+         * at the end of a fight to remove buffs and nerfs that way
+         * the stats are at their normal values for next fight.
+         */
+        public void cleanseAll(){
+            for(String stat : new Constants().STATS){
+                if (!stat.equals("HP")) // skip the "HP" reset
+                    this.getStat(stat).reset();
+            }
         }
     }
 }

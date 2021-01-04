@@ -1,4 +1,4 @@
-package defines;
+package Defines;
 
 import java.lang.Exception;
 
