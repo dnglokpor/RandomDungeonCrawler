@@ -1,5 +1,7 @@
 Project name: *Random Dungeon Crawler*
 
+*This project was abandoned as a need for better structure arose during the implementation. Refer to https://github.com/dnglokpor/RandomDungeonCrawlerFXGL for the new version of the implementation.*
+
 Author: myLewysG (Delwys Glokpor)
 
 1 - Overall Description:
